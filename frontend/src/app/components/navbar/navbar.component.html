@@ -1,0 +1,34 @@
+<mat-toolbar color="primary" class="navbar mat-elevation-z4" *ngIf="isLoggedIn()">
+  <span class="brand-logo">
+    <mat-icon class="logo-icon">local_library</mat-icon>
+    <span>LibManage Pro</span>
+  </span>
+  <span class="spacer"></span>
+  <div class="nav-links">
+    <a mat-button routerLink="/dashboard" routerLinkActive="active-link">
+      <mat-icon>dashboard</mat-icon> Dashboard
+    </a>
+    <a mat-button routerLink="/books" routerLinkActive="active-link">
+      <mat-icon>book</mat-icon> Books
+    </a>
+    <a mat-button routerLink="/members" routerLinkActive="active-link">
+      <mat-icon>people</mat-icon> Members
+    </a>
+    <a mat-button routerLink="/borrow-history" routerLinkActive="active-link">
+      <mat-icon>history</mat-icon> Borrow History
+    </a>
+  </div>
+  <span class="spacer"></span>
+  <div class="user-section">
+    <span class="welcome-text">Hello, <strong>{{ username }}</strong></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="User menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>

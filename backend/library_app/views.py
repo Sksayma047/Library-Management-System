@@ -25,29 +25,29 @@ from rest_framework.permissions import AllowAny
 
 
 
-# class BookViewSet(viewsets.ModelViewSet):
-#     queryset = Book.objects.all()
-#     serializer_class = BookSerializer
-#     permission_classes = [IsAuthenticated]
-#     filter_backends = [DjangoFilterBackend,
-#                        filters.SearchFilter, filters.OrderingFilter]
-#     filterset_fields = ['author']
-#     search_fields = ['title', 'author', 'isbn']
-#     ordering_fields = ['title', 'author', 'created_at', 'available_copies']
-#     ordering = ['title']
-
-#     def get_queryset(self):
-#         qs = super().get_queryset()
-#         available_only = self.request.query_params.get('available_only')
-#         if available_only and available_only.lower() == 'true':
-#             qs = qs.filter(available_copies__gt=0)
-#         return qs
-
-
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend,
+                       filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['author']
+    search_fields = ['title', 'author', 'isbn']
+    ordering_fields = ['title', 'author', 'created_at', 'available_copies']
+    ordering = ['title']
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        available_only = self.request.query_params.get('available_only')
+        if available_only and available_only.lower() == 'true':
+            qs = qs.filter(available_copies__gt=0)
+        return qs
+
+
+# class BookViewSet(viewsets.ModelViewSet):
+#     queryset = Book.objects.all()
+#     serializer_class = BookSerializer
+#     permission_classes = [AllowAny]
 
 
 

@@ -2,6 +2,7 @@ from datetime import date
 from decimal import Decimal
 from django.db import transaction
 from .models import Book, Member, BorrowHistory
+from django.utils import timezone
 
 LATE_FEE_PER_DAY = Decimal('1.00')
 
@@ -72,16 +73,23 @@ class BorrowService:
 
 
 class DashboardService:
-    @staticmethod
-    def get_stats():
+   @staticmethod
+   def get_stats():
+
         return {
-            'total_books': Book.objects.count(),
-            'total_members': Member.objects.count(),
-            'active_borrows': BorrowHistory.objects.filter(
-                status__in=[BorrowHistory.Status.BORROWED, BorrowHistory.Status.OVERDUE]
+            "total_books": Book.objects.count(),
+            "total_members": Member.objects.count(),
+
+            "active_borrows": BorrowHistory.objects.filter(
+                return_date__isnull=True
             ).count(),
-            'overdue_borrows': BorrowHistory.objects.filter(
-                status=BorrowHistory.Status.OVERDUE
+
+            "overdue_borrows": BorrowHistory.objects.filter(
+                return_date__isnull=True,
+                due_date__lt=timezone.now().date()
             ).count(),
-            'available_books': Book.objects.filter(available_copies__gt=0).count(),
+
+            "available_books": Book.objects.filter(
+                available_copies__gt=0
+            ).count()
         }

@@ -1,0 +1,154 @@
+.page-container {
+  padding: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-section h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #2c3e50;
+}
+
+.subtitle {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 15px;
+}
+
+.table-card {
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+.search-bar-container {
+  display: flex;
+  gap: 16px;
+  padding: 24px;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.search-field {
+  flex: 1;
+  margin-bottom: -1.25em; /* Compensate for Angular material outline padding */
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+.table-row {
+  transition: background-color 0.2s ease;
+}
+
+.table-row:hover {
+  background-color: #f8fafc;
+}
+
+.isbn-cell {
+  font-family: monospace;
+  font-size: 13px;
+  color: #7f8c8d;
+}
+
+.title-cell {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.stock-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  background-color: rgba(52, 152, 219, 0.1);
+  color: #3498db;
+  font-weight: 600;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.stock-badge.low-stock {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+.status-indicator {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.status-indicator.available {
+  background-color: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+}
+
+.status-indicator.unavailable {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+.actions-header {
+  text-align: right !important;
+}
+
+.actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.empty-table-cell {
+  text-align: center;
+  padding: 40px !important;
+  color: #7f8c8d;
+  font-size: 15px;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 16px;
+  }
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .search-bar-container {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+  .search-field {
+    margin-bottom: 0;
+  }
+}

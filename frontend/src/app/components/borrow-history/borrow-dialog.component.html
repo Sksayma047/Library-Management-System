@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>Issue Book</h2>
+<mat-dialog-content>
+  <div *ngIf="loadingData" style="display: flex; justify-content: center; padding: 20px;">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <form *ngIf="!loadingData" [formGroup]="borrowForm" (ngSubmit)="onSubmit()" class="dialog-form">
+    <!-- Member Selection -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Select Member</mat-label>
+      <mat-select formControlName="member">
+        <mat-option *ngFor="let member of members" [value]="member.id">
+          {{ member.name }} (ID: {{ member.member_id }})
+        </mat-option>
+        <mat-option *ngIf="members.length === 0" disabled>No members found</mat-option>
+      </mat-select>
+      <mat-error *ngIf="borrowForm.get('member')?.errors?.['required']">Member selection is required</mat-error>
+    </mat-form-field>
+
+    <!-- Book Selection -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Select Book</mat-label>
+      <mat-select formControlName="book">
+        <mat-option *ngFor="let book of books" [value]="book.id">
+          {{ book.title }} by {{ book.author }} (Avail: {{ book.available_copies }})
+        </mat-option>
+        <mat-option *ngIf="books.length === 0" disabled>No available books in stock</mat-option>
+      </mat-select>
+      <mat-error *ngIf="borrowForm.get('book')?.errors?.['required']">Book selection is required</mat-error>
+    </mat-form-field>
+
+    <!-- Dates -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Borrow Date</mat-label>
+      <input matInput type="date" formControlName="borrow_date">
+      <mat-error *ngIf="borrowForm.get('borrow_date')?.errors?.['required']">Borrow date is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Due Date</mat-label>
+      <input matInput type="date" formControlName="due_date">
+      <mat-error *ngIf="borrowForm.get('due_date')?.errors?.['required']">Due date is required</mat-error>
+    </mat-form-field>
+
+    <mat-error *ngIf="borrowForm.errors?.['dueBeforeBorrow']" style="font-size: 13px; margin-top: -8px;">
+      Due date must be after borrow date.
+    </mat-error>
+
+    <div class="actions">
+      <button mat-button type="button" (click)="onCancel()" [disabled]="loading">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="borrowForm.invalid || loading">
+        <span *ngIf="!loading">Issue Book</span>
+        <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

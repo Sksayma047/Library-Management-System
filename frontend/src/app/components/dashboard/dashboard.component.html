@@ -1,0 +1,124 @@
+<div class="dashboard-container">
+  <div class="header-section">
+    <div>
+      <h1>Library Analytics Dashboard</h1>
+      <p class="subtitle">System overview and shortcuts</p>
+    </div>
+    <button mat-stroked-button color="primary" (click)="loadStats()" [disabled]="loading">
+      <mat-icon>refresh</mat-icon> Refresh Stats
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="!loading">
+    <!-- Stats Cards Grid -->
+    <div class="stats-grid">
+      <!-- Total Books -->
+      <mat-card class="stat-card books-card">
+        <mat-card-content class="card-content">
+          <div class="icon-container">
+            <mat-icon>menu_book</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-title">Total Books</h3>
+            <span class="stat-number">{{ stats.total_books }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Available Books -->
+      <mat-card class="stat-card available-card">
+        <mat-card-content class="card-content">
+          <div class="icon-container">
+            <mat-icon>check_circle</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-title">Available Titles</h3>
+            <span class="stat-number">{{ stats.available_books }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Active Members -->
+      <mat-card class="stat-card members-card">
+        <mat-card-content class="card-content">
+          <div class="icon-container">
+            <mat-icon>group</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-title">Total Members</h3>
+            <span class="stat-number">{{ stats.total_members }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Active Borrows -->
+      <mat-card class="stat-card borrows-card">
+        <mat-card-content class="card-content">
+          <div class="icon-container">
+            <mat-icon>assignment</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-title">Active Borrows</h3>
+            <span class="stat-number">{{ stats.active_borrows }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Overdue Borrows -->
+      <mat-card class="stat-card overdue-card">
+        <mat-card-content class="card-content">
+          <div class="icon-container">
+            <mat-icon>warning</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3 class="stat-title">Overdue Borrows</h3>
+            <span class="stat-number">{{ stats.overdue_borrows }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Quick Action Section -->
+    <div class="actions-section">
+      <h2>Quick Actions</h2>
+      <div class="actions-grid">
+        <mat-card class="action-card" routerLink="/books">
+          <mat-card-content>
+            <mat-icon class="action-icon">add_circle</mat-icon>
+            <h3>Manage Books</h3>
+            <p>Add new books, update stock levels or search titles.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="action-card" routerLink="/members">
+          <mat-card-content>
+            <mat-icon class="action-icon">person_add</mat-icon>
+            <h3>Manage Members</h3>
+            <p>Register new members, view contact details and borrows.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="action-card" routerLink="/borrow-history">
+          <mat-card-content>
+            <mat-icon class="action-icon">swap_horiz</mat-icon>
+            <h3>Issue & Return</h3>
+            <p>Record a new book issuance, log returns and late fees.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="action-card overdue-action" (click)="runOverdueCron()" [class.disabled-action]="markingOverdue">
+          <mat-card-content>
+            <mat-icon *ngIf="!markingOverdue" class="action-icon">lock_clock</mat-icon>
+            <mat-spinner *ngIf="markingOverdue" diameter="30" class="spinner-icon"></mat-spinner>
+            <h3>Mark Overdues</h3>
+            <p>Trigger database scan to mark unreturned books as overdue.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

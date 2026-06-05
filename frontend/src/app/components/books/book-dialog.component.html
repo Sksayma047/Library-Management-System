@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Book' : 'Add New Book' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="dialog-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" placeholder="Book Title">
+      <mat-error *ngIf="bookForm.get('title')?.errors?.['required']">Title is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Author</mat-label>
+      <input matInput formControlName="author" placeholder="Author Name">
+      <mat-error *ngIf="bookForm.get('author')?.errors?.['required']">Author is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>ISBN</mat-label>
+      <input matInput formControlName="isbn" placeholder="10 or 13 digit ISBN" [readonly]="isEditMode">
+      <mat-error *ngIf="bookForm.get('isbn')?.errors?.['required']">ISBN is required</mat-error>
+      <mat-error *ngIf="bookForm.get('isbn')?.errors?.['maxlength']">ISBN cannot exceed 13 characters</mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Total Copies</mat-label>
+        <input matInput type="number" formControlName="total_copies" placeholder="Total Copies">
+        <mat-error *ngIf="bookForm.get('total_copies')?.errors?.['required']">Required</mat-error>
+        <mat-error *ngIf="bookForm.get('total_copies')?.errors?.['min']">Must be at least 1</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Available Copies</mat-label>
+        <input matInput type="number" formControlName="available_copies" placeholder="Available Copies">
+        <mat-error *ngIf="bookForm.get('available_copies')?.errors?.['required']">Required</mat-error>
+        <mat-error *ngIf="bookForm.get('available_copies')?.errors?.['min']">Cannot be negative</mat-error>
+      </mat-form-field>
+    </div>
+    
+    <mat-error *ngIf="bookForm.errors?.['availableExceedsTotal']" style="font-size: 13px; margin-top: -8px;">
+      Available copies cannot exceed total copies.
+    </mat-error>
+
+    <div class="actions">
+      <button mat-button type="button" (click)="onCancel()" [disabled]="loading">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="bookForm.invalid || loading">
+        <span *ngIf="!loading">Save</span>
+        <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

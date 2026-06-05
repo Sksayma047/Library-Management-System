@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Member Profile' : 'Register New Member' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="memberForm" (ngSubmit)="onSubmit()" class="dialog-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Member ID</mat-label>
+      <input matInput formControlName="member_id" placeholder="e.g. MEM001" [readonly]="isEditMode">
+      <mat-error *ngIf="memberForm.get('member_id')?.errors?.['required']">Member ID is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="Full Name">
+      <mat-error *ngIf="memberForm.get('name')?.errors?.['required']">Name is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="example@email.com">
+      <mat-error *ngIf="memberForm.get('email')?.errors?.['required']">Email is required</mat-error>
+      <mat-error *ngIf="memberForm.get('email')?.errors?.['email']">Please enter a valid email address</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Phone Number</mat-label>
+      <input matInput formControlName="phone" placeholder="Optional contact phone">
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-button type="button" (click)="onCancel()" [disabled]="loading">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="memberForm.invalid || loading">
+        <span *ngIf="!loading">Save</span>
+        <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>
