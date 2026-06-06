@@ -15,7 +15,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError(err => {
         // If we get an unauthorized 401 error, try to refresh the token
-        if (err.status === 401 && !request.url.includes('/api/auth/token/')) {
+        if (err.status === 401 && !request.url.includes('/api/auth/')) {
           return this.handle401Error(request, next);
         }
 

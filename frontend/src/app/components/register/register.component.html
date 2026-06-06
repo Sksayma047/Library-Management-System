@@ -1,0 +1,86 @@
+<div class="register-container">
+  <mat-card class="register-card mat-elevation-z8">
+    <div class="register-header">
+      <mat-icon class="register-logo">local_library</mat-icon>
+      <h2>Create Member Account</h2>
+      <p>Sign up to borrow books and view catalogs</p>
+    </div>
+
+    <mat-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        
+        <!-- Username Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username (Member ID)</mat-label>
+          <input matInput formControlName="username" placeholder="Choose a username (e.g. MEM101)" autocomplete="username">
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf="submitted && f['username'].errors?.['required']">Username is required</mat-error>
+          <mat-error *ngIf="submitted && f['username'].errors?.['minlength']">Username must be at least 3 characters</mat-error>
+        </mat-form-field>
+
+        <!-- Full Name Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter your full name" autocomplete="name">
+          <mat-icon matSuffix>badge</mat-icon>
+          <mat-error *ngIf="submitted && f['name'].errors?.['required']">Full name is required</mat-error>
+        </mat-form-field>
+
+        <!-- Email Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email Address</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="example@domain.com" autocomplete="email">
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="submitted && f['email'].errors?.['required']">Email address is required</mat-error>
+          <mat-error *ngIf="submitted && f['email'].errors?.['email']">Enter a valid email address</mat-error>
+        </mat-form-field>
+
+        <!-- Phone Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone Number (Optional)</mat-label>
+          <input matInput formControlName="phone" placeholder="Enter contact phone" autocomplete="tel">
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+
+        <div class="row">
+          <!-- Password Field -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Min 6 chars" autocomplete="new-password">
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button" tabIndex="-1">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="submitted && f['password'].errors?.['required']">Password is required</mat-error>
+            <mat-error *ngIf="submitted && f['password'].errors?.['minlength']">Password must be at least 6 characters</mat-error>
+          </mat-form-field>
+
+          <!-- Confirm Password Field -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" placeholder="Re-enter password" autocomplete="new-password">
+            <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button" tabIndex="-1">
+              <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="submitted && f['confirmPassword'].errors?.['required']">Confirm password is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Mismatch error display -->
+        <div class="mat-error" *ngIf="submitted && registerForm.errors?.['passwordMismatch']" style="margin-bottom: 16px; font-size: 13px; text-align: center;">
+          Passwords do not match
+        </div>
+
+        <!-- Submit Button -->
+        <button mat-raised-button color="primary" class="full-width register-button" type="submit" [disabled]="loading">
+          <span *ngIf="!loading">SIGN UP</span>
+          <mat-spinner *ngIf="loading" diameter="24" class="register-spinner"></mat-spinner>
+        </button>
+      </form>
+
+      <!-- Toggle page link -->
+      <div class="login-link">
+        Already have an account? <a routerLink="/login">Log in</a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

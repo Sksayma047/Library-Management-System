@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api/auth/token/';
   private refreshUrl = 'http://localhost:8000/api/auth/token/refresh/';
+  private registerUrl = 'http://localhost:8000/api/auth/register/';
+  private membersUrl = 'http://localhost:8000/api/members/';
   
   private currentUserSubject = new BehaviorSubject<any>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
@@ -17,12 +19,39 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {
     const token = this.getToken();
     if (token) {
-      this.currentUserSubject.next(this.decodeToken(token));
+      const decoded = this.decodeToken(token);
+      const role = decoded?.role || localStorage.getItem('role') || 'Member';
+      this.currentUserSubject.next({ ...decoded, role });
     }
   }
 
   public get currentUserValue(): any {
     return this.currentUserSubject.value;
+  }
+
+  getRole(): string | null {
+    const user = this.currentUserValue;
+    return user ? user.role : localStorage.getItem('role');
+  }
+
+  isAdmin(): boolean {
+    return this.getRole() === 'Admin';
+  }
+
+  isMember(): boolean {
+    return this.getRole() === 'Member';
+  }
+
+  register(user: any): Observable<any> {
+    return this.http.post<any>(this.registerUrl, user);
+  }
+
+  getProfile(): Observable<any> {
+    return this.http.get<any>(`${this.membersUrl}me/`);
+  }
+
+  updateProfile(profileData: any): Observable<any> {
+    return this.http.patch<any>(`${this.membersUrl}me/`, profileData);
   }
 
   login(username: string, password: string): Observable<any> {
@@ -33,7 +62,10 @@ export class AuthService {
             localStorage.setItem('access_token', response.access);
             localStorage.setItem('refresh_token', response.refresh);
             localStorage.setItem('username', username);
-            this.currentUserSubject.next(this.decodeToken(response.access));
+            const decoded = this.decodeToken(response.access);
+            const role = decoded?.role || response.role || 'Member';
+            localStorage.setItem('role', role);
+            this.currentUserSubject.next({ ...decoded, role });
           }
           return response;
         })
@@ -44,9 +76,11 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('username');
+    localStorage.removeItem('role');
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
   }
+
 
   refreshToken(): Observable<any> {
     const refreshToken = localStorage.getItem('refresh_token');

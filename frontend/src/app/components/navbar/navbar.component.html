@@ -5,17 +5,23 @@
   </span>
   <span class="spacer"></span>
   <div class="nav-links">
-    <a mat-button routerLink="/dashboard" routerLinkActive="active-link">
+    <a mat-button routerLink="/dashboard" routerLinkActive="active-link" *ngIf="isAdmin()">
       <mat-icon>dashboard</mat-icon> Dashboard
     </a>
     <a mat-button routerLink="/books" routerLinkActive="active-link">
       <mat-icon>book</mat-icon> Books
     </a>
-    <a mat-button routerLink="/members" routerLinkActive="active-link">
+    <a mat-button routerLink="/members" routerLinkActive="active-link" *ngIf="isAdmin()">
       <mat-icon>people</mat-icon> Members
     </a>
-    <a mat-button routerLink="/borrow-history" routerLinkActive="active-link">
+    <a mat-button routerLink="/borrow-history" routerLinkActive="active-link" *ngIf="isAdmin()">
       <mat-icon>history</mat-icon> Borrow History
+    </a>
+    <a mat-button routerLink="/my-borrows" routerLinkActive="active-link" *ngIf="!isAdmin()">
+      <mat-icon>history_edu</mat-icon> My Borrows
+    </a>
+    <a mat-button routerLink="/profile" routerLinkActive="active-link">
+      <mat-icon>account_box</mat-icon> My Profile
     </a>
   </div>
   <span class="spacer"></span>

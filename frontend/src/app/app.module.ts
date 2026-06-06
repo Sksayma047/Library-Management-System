@@ -17,6 +17,10 @@ import { MembersComponent } from './components/members/members.component';
 import { MemberDialogComponent } from './components/members/member-dialog.component';
 import { BorrowHistoryComponent } from './components/borrow-history/borrow-history.component';
 import { BorrowDialogComponent } from './components/borrow-history/borrow-dialog.component';
+import { AccessDeniedComponent } from './components/access-denied/access-denied.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { MyBorrowsComponent } from './components/my-borrows/my-borrows.component';
 
 // Interceptors
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
@@ -53,7 +57,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MembersComponent,
     MemberDialogComponent,
     BorrowHistoryComponent,
-    BorrowDialogComponent
+    BorrowDialogComponent,
+    AccessDeniedComponent,
+    RegisterComponent,
+    ProfileComponent,
+    MyBorrowsComponent
   ],
   imports: [
     BrowserModule,

@@ -11,8 +11,8 @@ export class JwtInterceptor implements HttpInterceptor {
     const token = this.authService.getToken();
     const isApiUrl = request.url.startsWith('http://localhost:8000/api/');
     
-    // Do not append auth token for standard token urls
-    const isAuthUrl = request.url.includes('/api/auth/token/');
+    // Do not append auth token for standard token and auth urls
+    const isAuthUrl = request.url.includes('/api/auth/');
     
     if (token && isApiUrl && !isAuthUrl) {
       request = request.clone({

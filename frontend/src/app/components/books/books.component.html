@@ -4,7 +4,7 @@
       <h1>Books Directory</h1>
       <p class="subtitle">Search, view and manage library collection</p>
     </div>
-    <button mat-raised-button color="primary" (click)="openAddBookDialog()">
+    <button *ngIf="isAdmin()" mat-raised-button color="primary" (click)="openAddBookDialog()">
       <mat-icon>add</mat-icon> Add Book
     </button>
   </div>
@@ -75,12 +75,20 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef class="actions-header">Actions</th>
           <td mat-cell *matCellDef="let book" class="actions-cell">
-            <button mat-icon-button color="primary" (click)="openEditBookDialog(book)" matTooltip="Edit Book">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="deleteBook(book)" matTooltip="Delete Book">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <div *ngIf="isAdmin()">
+              <button mat-icon-button color="primary" (click)="openEditBookDialog(book)" matTooltip="Edit Book">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteBook(book)" matTooltip="Delete Book">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div *ngIf="!isAdmin()">
+              <button mat-raised-button color="primary" (click)="borrowBook(book)" [disabled]="book.available_copies === 0 || borrowingId === book.id">
+                <span *ngIf="borrowingId !== book.id">Borrow</span>
+                <mat-spinner *ngIf="borrowingId === book.id" diameter="18" style="margin: 0 auto;"></mat-spinner>
+              </button>
+            </div>
           </td>
         </ng-container>
 

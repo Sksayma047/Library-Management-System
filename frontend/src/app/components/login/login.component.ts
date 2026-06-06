@@ -23,9 +23,13 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private snackBar: MatSnackBar
   ) {
-    // redirect to dashboard if already logged in
+    // redirect if already logged in
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/dashboard']);
+      if (this.authService.isAdmin()) {
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.router.navigate(['/books']);
+      }
     }
   }
 
@@ -38,7 +42,7 @@ export class LoginComponent implements OnInit {
     // get return url from route parameters or default to '/dashboard'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
-
+  //Getter function (->get f()- to get form controls easily in template)
   get f() { return this.loginForm.controls; }
 
   onSubmit(): void {
@@ -58,7 +62,12 @@ export class LoginComponent implements OnInit {
             verticalPosition: 'top',
             panelClass: ['success-snackbar']
           });
-          this.router.navigateByUrl(this.returnUrl);
+          
+          let targetUrl = this.returnUrl;
+          if (targetUrl === '/dashboard' && !this.authService.isAdmin()) {
+            targetUrl = '/books';
+          }
+          this.router.navigateByUrl(targetUrl);
         },
         error: error => {
           this.loading = false;

@@ -6,6 +6,8 @@ import { BookDialogComponent } from './book-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
+import { BorrowService } from '../../services/borrow.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-books',
@@ -21,6 +23,7 @@ export class BooksComponent implements OnInit {
   searchQuery = '';
   sortQuery = '';
   loading = true;
+  borrowingId: number | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -28,12 +31,59 @@ export class BooksComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public authService: AuthService,
+    private borrowService: BorrowService
   ) { }
 
   ngOnInit(): void {
+    this.displayedColumns = ['isbn', 'title', 'author', 'copies', 'status', 'actions'];
     this.loadBooks();
   }
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  borrowBook(book: Book): void {
+    if (book.id === undefined) {
+      this.snackBar.open('Cannot borrow book: ID is missing.', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+    this.borrowingId = book.id;
+    const today = new Date();
+    const dueDate = new Date();
+    dueDate.setDate(today.getDate() + 14); // 2 weeks default duration
+
+    const borrowData = {
+      member: 0, // Frontend dummy, backend will resolve this to request.user.email member
+      book: book.id,
+      borrow_date: today.toISOString().substring(0, 10),
+      due_date: dueDate.toISOString().substring(0, 10)
+    };
+
+    this.borrowService.borrowBook(borrowData).subscribe({
+      next: () => {
+        this.borrowingId = null;
+        this.snackBar.open(`"${book.title}" borrowed successfully!`, 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+        this.loadBooks();
+      },
+      error: (err) => {
+        this.borrowingId = null;
+        this.snackBar.open(err.error?.detail || err.message || 'Failed to borrow book.', 'Close', {
+          duration: 4000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
+
 
   loadBooks(): void {
     this.loading = true;
