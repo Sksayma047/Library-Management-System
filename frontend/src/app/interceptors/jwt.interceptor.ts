@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth.service'; // Path apne project ke hisab se dekhein
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -9,12 +10,13 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
+    
     // Check karein ki request humare backend API URL par ja rahi hai ya nahi
     const isApiUrl = request.url.startsWith(environment.apiUrl);
     
     // Auth endpoints par token append nahi karna hai
     const isAuthUrl = request.url.includes('/auth/token/');
-    
+
     if (token && isApiUrl && !isAuthUrl) {
       request = request.clone({
         setHeaders: {
