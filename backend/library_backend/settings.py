@@ -1,18 +1,17 @@
 from pathlib import Path
-# pyrefly: ignore [missing-import]
 from decouple import config
 import dj_database_url
 import os
-
-
-
+from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Secrets & Debug
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me')
 DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = ['*']
 
+# Installed Apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,6 +26,7 @@ INSTALLED_APPS = [
     'library_app',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -56,33 +56,9 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'library_backend.wsgi.application'
-# DATABASE_URL = config('DATABASE_URL', default=None)
-
-# if DATABASE_URL:
-#     DATABASES = {
-#         'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
-#     }
-# else:
-# DATABASES = {
-#     'default': {
-#         # 'ENGINE': 'django.db.backends.postgresql',
-#         # 'NAME': config('DB_NAME', default='library_db'),
-#         # 'USER': config('DB_USER', default='postgres'),
-#         # 'PASSWORD': config('DB_PASSWORD', default=''),
-#         # 'HOST': config('DB_HOST', default='localhost'),
-#         # 'PORT': config('DB_PORT', default='5432'),
-#         'default': dj_database_url.config(
-#         default=os.getenv('DATABASE_URL'),
-#         conn_max_age=600,
-#         ssl_require=True
-#     )
-#     }
-# }
-
-
 WSGI_APPLICATION = 'library_backend.wsgi.application'
 
+# Database Configuration (Neon Postgres for Production / SQLite for Local)
 DATABASE_URL = config('DATABASE_URL', default=None)
 
 if DATABASE_URL:
@@ -101,7 +77,7 @@ else:
         }
     }
 
-
+# Password Validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -109,6 +85,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -117,6 +94,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# REST Framework Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -133,16 +111,12 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 }
 
+# CORS Settings
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
-
-from datetime import timedelta
+# Simple JWT Settings
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
-
-
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', cast=bool)
