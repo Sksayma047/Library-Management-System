@@ -9,10 +9,11 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
-    const isApiUrl = request.url.startsWith('http://localhost:8000/api/');
+    // Check karein ki request humare backend API URL par ja rahi hai ya nahi
+    const isApiUrl = request.url.startsWith(environment.apiUrl);
     
-    // Do not append auth token for standard token and auth urls
-    const isAuthUrl = request.url.includes('/api/auth/');
+    // Auth endpoints par token append nahi karna hai
+    const isAuthUrl = request.url.includes('/auth/token/');
     
     if (token && isApiUrl && !isAuthUrl) {
       request = request.clone({
