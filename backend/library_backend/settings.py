@@ -95,8 +95,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 }
 
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:4200').split(',')
+CORS_ALLOWED_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
 
 from datetime import timedelta
 SIMPLE_JWT = {
