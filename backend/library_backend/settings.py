@@ -2,6 +2,10 @@ from pathlib import Path
 # pyrefly: ignore [missing-import]
 from decouple import config
 import dj_database_url
+import os
+
+
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -52,24 +56,51 @@ TEMPLATES = [
     },
 ]
 
+# WSGI_APPLICATION = 'library_backend.wsgi.application'
+# DATABASE_URL = config('DATABASE_URL', default=None)
+
+# if DATABASE_URL:
+#     DATABASES = {
+#         'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+#     }
+# else:
+# DATABASES = {
+#     'default': {
+#         # 'ENGINE': 'django.db.backends.postgresql',
+#         # 'NAME': config('DB_NAME', default='library_db'),
+#         # 'USER': config('DB_USER', default='postgres'),
+#         # 'PASSWORD': config('DB_PASSWORD', default=''),
+#         # 'HOST': config('DB_HOST', default='localhost'),
+#         # 'PORT': config('DB_PORT', default='5432'),
+#         'default': dj_database_url.config(
+#         default=os.getenv('DATABASE_URL'),
+#         conn_max_age=600,
+#         ssl_require=True
+#     )
+#     }
+# }
+
+
 WSGI_APPLICATION = 'library_backend.wsgi.application'
+
 DATABASE_URL = config('DATABASE_URL', default=None)
 
 if DATABASE_URL:
     DATABASES = {
-        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
 else:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='library_db'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD', default=''),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
