@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -8,10 +9,13 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api/auth/token/';
-  private refreshUrl = 'http://localhost:8000/api/auth/token/refresh/';
-  private registerUrl = 'http://localhost:8000/api/auth/register/';
-  private membersUrl = 'http://localhost:8000/api/members/';
+  // Base URL Environment File Se Dynamic Aayega (Local + Vercel Production Auto-Switch)
+  private baseUrl = environment.apiUrl;
+
+  private apiUrl = `${this.baseUrl}/api/auth/token/`;
+  private refreshUrl = `${this.baseUrl}/api/auth/token/refresh/`;
+  private registerUrl = `${this.baseUrl}/api/auth/register/`;
+  private membersUrl = `${this.baseUrl}/api/members/`;
   
   private currentUserSubject = new BehaviorSubject<any>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
@@ -81,7 +85,6 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-
   refreshToken(): Observable<any> {
     const refreshToken = localStorage.getItem('refresh_token');
     if (!refreshToken) {
@@ -126,7 +129,6 @@ export class AuthService {
     
     const isExpired = Math.floor(new Date().getTime() / 1000) >= decoded.exp;
     if (isExpired) {
-      // Try to use refresh token, handled by interceptor or guard
       return false;
     }
     return true;
