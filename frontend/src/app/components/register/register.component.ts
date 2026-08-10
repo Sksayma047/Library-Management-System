@@ -75,25 +75,32 @@ export class RegisterComponent implements OnInit {
         },
         error: (error) => {
           this.loading = false;
-          let errorMessage = 'Registration failed.';
-          const rawMessage = error.message || error;
+          let errorMessage = 'Registration failed. Please try again.';
 
-          if (rawMessage) {
-            try {
-              // Try parsing as JSON since validation errors from ErrorInterceptor are stringified objects
-              const parsed = JSON.parse(rawMessage);
-              if (typeof parsed === 'object' && parsed !== null) {
-                errorMessage = Object.values(parsed).flat().join(' ');
-              } else {
-                errorMessage = parsed;
-              }
-            } catch (e) {
-              errorMessage = rawMessage;
+          // 1. Backend Server Error / Database HTML Error Check
+          const errBody = error?.error || error;
+          if (typeof errBody === 'string' && (errBody.includes('<!DOCTYPE html>') || errBody.includes('<html'))) {
+            errorMessage = 'Server or Database Connection Error. Please verify backend setup.';
+          } 
+          // 2. Validation Error Object (e.g. { username: ["Already exists"] })
+          else if (errBody && typeof errBody === 'object') {
+            const messages: string[] = [];
+            Object.keys(errBody).forEach((key) => {
+              const val = errBody[key];
+              const formattedVal = Array.isArray(val) ? val.join(', ') : val;
+              messages.push(`${key}: ${formattedVal}`);
+            });
+            if (messages.length > 0) {
+              errorMessage = messages.join(' | ');
             }
+          } 
+          // 3. String error message
+          else if (typeof errBody === 'string') {
+            errorMessage = errBody;
           }
 
           this.snackBar.open(errorMessage, 'Close', {
-            duration: 5000,
+            duration: 6000,
             horizontalPosition: 'right',
             verticalPosition: 'top',
             panelClass: ['error-snackbar']
