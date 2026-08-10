@@ -8,10 +8,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class DashboardService {
-  // Safe base URL formatting
+  // Safe base URL extraction (localhost hamesha ke liye removed)
   private baseUrl = environment.apiUrl.replace(/\/$/, '');
-  
-  // Dashboard stats ka correct API endpoint
   private apiUrl = `${this.baseUrl}/dashboard/stats/`;
 
   constructor(private http: HttpClient) { }
