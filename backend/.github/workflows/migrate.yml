@@ -1,1 +1,35 @@
+name: Run Neon Database Migration
 
+on:
+  workflow_dispatch: # GitHub par manually 'Run workflow' button dabakar chalane ke liye
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Required Packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install django dj-database-url python-decouple psycopg2-binary djangorestframework django-cors-headers django-filter djangorestframework-simplejwt
+
+      - name: Run Migrations on Neon
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          cd backend
+          python manage.py migrate
+
+      - name: Create Default Admin User
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          cd backend
+          python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'admin@example.com', 'admin123')"
