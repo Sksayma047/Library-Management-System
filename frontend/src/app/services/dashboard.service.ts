@@ -8,7 +8,11 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class DashboardService {
-  private apiUrl = `${environment.apiUrl}/books/`;
+  // Safe base URL formatting
+  private baseUrl = environment.apiUrl.replace(/\/$/, '');
+  
+  // Dashboard stats ka correct API endpoint
+  private apiUrl = `${this.baseUrl}/dashboard/stats/`;
 
   constructor(private http: HttpClient) { }
 
