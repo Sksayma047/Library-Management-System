@@ -9,7 +9,9 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class BorrowService {
-  private apiUrl = `${environment.apiUrl}/books/`;
+  // Correct API Endpoint for Borrow History (books/ ki jagah borrows/)
+  private baseUrl = environment.apiUrl.replace(/\/$/, '');
+  private apiUrl = `${this.baseUrl}/borrows/`;
 
   constructor(private http: HttpClient) { }
 
