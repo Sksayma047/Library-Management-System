@@ -3,12 +3,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Member } from '../models/member.model';
 import { PaginatedResponse } from '../models/paginated-response.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MemberService {
-  private apiUrl = 'http://localhost:8000/api/members/';
+  private apiUrl = `${environment.apiUrl}/books/`;
 
   constructor(private http: HttpClient) { }
 
