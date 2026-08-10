@@ -9,8 +9,8 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class BookService {
-  // Sahi environment URL dynamic reference
-  private apiUrl = `${environment.apiUrl}/books/`;
+  // Ensure trailing slash logic is clean
+  private apiUrl = `${environment.apiUrl.replace(/\/$/, '')}/books/`;
 
   constructor(private http: HttpClient) { }
 
