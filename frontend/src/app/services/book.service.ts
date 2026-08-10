@@ -3,13 +3,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Book } from '../models/book.model';
 import { PaginatedResponse } from '../models/paginated-response.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
-  private apiUrl = 'http://localhost:8000/api/books/';
-
+  private apiUrl = `${environment.apiUrl}/books/`;
   constructor(private http: HttpClient) { }
 
   getBooks(
