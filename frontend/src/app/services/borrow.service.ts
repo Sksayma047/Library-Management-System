@@ -3,12 +3,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BorrowHistory } from '../models/borrow.model';
 import { PaginatedResponse } from '../models/paginated-response.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BorrowService {
-  private apiUrl = 'http://localhost:8000/api/borrow-history/';
+  private apiUrl = `${environment.apiUrl}/books/`;
 
   constructor(private http: HttpClient) { }
 
