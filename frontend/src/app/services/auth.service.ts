@@ -9,14 +9,15 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  // Base URL Environment File Se Dynamic Aayega (Local + Vercel Production Auto-Switch)
-  private baseUrl = environment.apiUrl;
+  // Base URL Environment File Se Dynamic Aayega
+  private baseUrl = environment.apiUrl; // e.g. 'https://library-management-system-kuss.vercel.app/api'
 
-  private apiUrl = `${this.baseUrl}/api/auth/token/`;
-  private refreshUrl = `${this.baseUrl}/api/auth/token/refresh/`;
-  private registerUrl = `${this.baseUrl}/api/auth/register/`;
-  private membersUrl = `${this.baseUrl}/api/members/`;
-  
+  // Corrected Endpoints (Single '/api/' only)
+  private apiUrl = `${this.baseUrl}/auth/token/`;
+  private refreshUrl = `${this.baseUrl}/auth/token/refresh/`;
+  private registerUrl = `${this.baseUrl}/auth/register/`;
+  private membersUrl = `${this.baseUrl}/members/`;
+
   private currentUserSubject = new BehaviorSubject<any>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -122,11 +123,11 @@ export class AuthService {
   isLoggedIn(): boolean {
     const token = this.getToken();
     if (!token) return false;
-    
+
     // Simple check if expired
     const decoded = this.decodeToken(token);
     if (!decoded || !decoded.exp) return false;
-    
+
     const isExpired = Math.floor(new Date().getTime() / 1000) >= decoded.exp;
     if (isExpired) {
       return false;
