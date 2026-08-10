@@ -9,7 +9,9 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class BookService {
+  // Sahi environment URL dynamic reference
   private apiUrl = `${environment.apiUrl}/books/`;
+
   constructor(private http: HttpClient) { }
 
   getBooks(
