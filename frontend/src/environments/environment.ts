@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://library-management-system-kuss.vercel.app/api'
+  apiUrl: 'https://library-management-system-lake-chi.vercel.app/api/'
 };
 /*
  * For easier debugging in development mode, you can import the following file
