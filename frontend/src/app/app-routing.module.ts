@@ -11,6 +11,7 @@ import { MyBorrowsComponent } from './components/my-borrows/my-borrows.component
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+import { RootRedirectGuard } from './guards/root-redirect.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -52,8 +53,13 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: ['Admin', 'Member'] }
   },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: '/dashboard' }
+  { 
+    path: '', 
+    canActivate: [RootRedirectGuard],
+    pathMatch: 'full',
+    component: AccessDeniedComponent
+  },
+  { path: '**', redirectTo: '' }
 ];
 
 
