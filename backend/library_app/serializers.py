@@ -25,6 +25,10 @@ class BookSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
     def validate(self, data):
+        # For new book records, default available_copies to total_copies if not specified
+        if self.instance is None and 'available_copies' not in data:
+            data['available_copies'] = data.get('total_copies', 1)
+
         available = data.get('available_copies', 0)
         total = data.get('total_copies', 1)
         if available > total:

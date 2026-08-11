@@ -47,13 +47,26 @@ export class BookDialogComponent implements OnInit {
   ngOnInit(): void {
     this.isEditMode = !!this.data && !!this.data.book;
     
+    const totalDefault = this.data?.book?.total_copies || 1;
+    const availableDefault = this.isEditMode ? (this.data?.book?.available_copies ?? 0) : totalDefault;
+
     this.bookForm = this.fb.group({
       title: [this.data?.book?.title || '', [Validators.required, Validators.maxLength(255)]],
       author: [this.data?.book?.author || '', [Validators.required, Validators.maxLength(255)]],
       isbn: [this.data?.book?.isbn || '', [Validators.required, Validators.maxLength(13)]],
-      total_copies: [this.data?.book?.total_copies || 1, [Validators.required, Validators.min(1)]],
-      available_copies: [this.data?.book?.available_copies || 0, [Validators.required, Validators.min(0)]]
+      total_copies: [totalDefault, [Validators.required, Validators.min(1)]],
+      available_copies: [availableDefault, [Validators.required, Validators.min(0)]]
     }, { validators: this.copiesValidator });
+
+    // In add mode, when total_copies changes, dynamically update available_copies to match it
+    if (!this.isEditMode) {
+      this.bookForm.get('total_copies')?.valueChanges.subscribe(val => {
+        const total = Number(val);
+        if (!isNaN(total)) {
+          this.bookForm.patchValue({ available_copies: total }, { emitEvent: false });
+        }
+      });
+    }
   }
 
   copiesValidator(group: FormGroup) {
