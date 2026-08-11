@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 })
 export class AuthService {
   // Base URL Environment File Se Dynamic Aayega
-  private baseUrl = environment.apiUrl; // e.g. 'https://library-management-system-kuss.vercel.app/api'
+  private baseUrl = environment.apiUrl; 
 
   // Corrected Endpoints (Single '/api/' only)
   private apiUrl = `${this.baseUrl}/auth/token/`;
