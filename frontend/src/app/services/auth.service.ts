@@ -9,14 +9,10 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  // Base URL Environment File Se Dynamic Aayega
-  private baseUrl = environment.apiUrl; 
-
-  // Corrected Endpoints (Single '/api/' only)
-  private apiUrl = `${this.baseUrl}/auth/token/`;
-  private refreshUrl = `${this.baseUrl}/auth/token/refresh/`;
-  private registerUrl = `${this.baseUrl}/auth/register/`;
-  private membersUrl = `${this.baseUrl}/members/`;
+  private apiUrl = `${environment.apiUrl}auth/token/`;
+  private refreshUrl = `${environment.apiUrl}auth/token/refresh/`;
+  private registerUrl = `${environment.apiUrl}auth/register/`;
+  private membersUrl = `${environment.apiUrl}members/`;
 
   private currentUserSubject = new BehaviorSubject<any>(null);
   public currentUser$ = this.currentUserSubject.asObservable();

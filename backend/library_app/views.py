@@ -26,7 +26,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 
-from rest_framework.permissions import AllowAny
+# from rest_framework.permissions import AllowAny
 
 
 
@@ -81,9 +81,28 @@ class MemberViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get', 'put', 'patch'], url_path='me')
     def me(self, request):
-        member = Member.objects.filter(email__iexact=request.user.email).first()
+        email = request.user.email
+        if not email:
+            email = f"{request.user.username}@library.com"
+            request.user.email = email
+            request.user.save()
+
+        member = Member.objects.filter(email__iexact=email).first()
         if not member:
-            return Response({"detail": "Member profile not found."}, status=status.HTTP_404_NOT_FOUND)
+            # Try to look up by member_id (username)
+            member = Member.objects.filter(member_id__iexact=request.user.username).first()
+            if member:
+                member.email = email
+                member.save()
+            else:
+                # Auto-create member profile for users who do not have one (e.g. superusers/admins)
+                name = f"{request.user.first_name} {request.user.last_name}".strip() or request.user.username
+                member = Member.objects.create(
+                    member_id=request.user.username,
+                    name=name,
+                    email=email,
+                    phone=""
+                )
 
         if request.method == 'GET':
             serializer = self.get_serializer(member)

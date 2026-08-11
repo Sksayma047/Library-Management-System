@@ -9,10 +9,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class MemberService {
-  // Safe base URL formatting
   private baseUrl = environment.apiUrl.replace(/\/$/, '');
-  
-  // Correct API Endpoint for Members (/books/ ki jagah /members/)
   private apiUrl = `${this.baseUrl}/members/`;
 
   constructor(private http: HttpClient) { }

@@ -9,7 +9,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
@@ -19,7 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           return this.handle401Error(request, next);
         }
 
-        // Return error details properly
+        //  error details properly
         let errorMsg = 'An error occurred';
         if (err.error) {
           if (typeof err.error === 'object') {

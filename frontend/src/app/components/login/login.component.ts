@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+// login component -> AuthService
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
             verticalPosition: 'top',
             panelClass: ['success-snackbar']
           });
-          
+
           let targetUrl = this.returnUrl;
           if (targetUrl === '/dashboard' && !this.authService.isAdmin()) {
             targetUrl = '/books';

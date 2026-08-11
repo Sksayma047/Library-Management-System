@@ -7,7 +7,7 @@ export class RoleGuard implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (!this.authService.isLoggedIn()) {
@@ -22,7 +22,6 @@ export class RoleGuard implements CanActivate {
       return true;
     }
 
-    // Redirect to access-denied page
     this.router.navigate(['/access-denied']);
     return false;
   }

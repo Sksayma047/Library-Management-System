@@ -3,14 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Book } from '../models/book.model';
 import { PaginatedResponse } from '../models/paginated-response.model';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
-  // Ensure trailing slash logic is clean
-  private apiUrl = `${environment.apiUrl.replace(/\/$/, '')}/books/`;
+  private baseUrl = environment.apiUrl.replace(/\/$/, '');
+  private apiUrl = `${this.baseUrl}/books/`;
 
   constructor(private http: HttpClient) { }
 

@@ -1,0 +1,10 @@
+venv/
+backend/venv/
+__pycache__/
+*.pyc
+node_modules/
+.env
+dist/
+.angular/
+tmp/
+*.log

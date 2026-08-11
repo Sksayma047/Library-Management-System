@@ -1,3 +1,14 @@
+
+
+# ----------------------------------------------------------------------------------------------------------------
+# -------------------------------------serializer me hi Tocken bante haii-------------------------------------------------------------------------------
+# ---------------------------------------------------------=--------------------------------------------------
+
+
+
+
+
+
 from rest_framework import serializers
 from django.utils import timezone
 from datetime import date, timedelta
@@ -95,7 +106,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
-    def get_token(cls, user):
+    def get_token(cls, user): #get_token ye Access token k andar user ki custom information/payload add karne k liye use hota hai taki frontend read kar sakse
         token = super().get_token(user)
         # Add custom claims
         token['username'] = user.username
@@ -192,4 +203,4 @@ class RegisterSerializer(serializers.Serializer):
             )
 
         return user
-
+

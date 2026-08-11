@@ -8,7 +8,6 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class DashboardService {
-  // Safe base URL extraction (localhost hamesha ke liye removed)
   private baseUrl = environment.apiUrl.replace(/\/$/, '');
   private apiUrl = `${this.baseUrl}/dashboard/stats/`;
 
