@@ -28,7 +28,7 @@
         <mat-error *ngIf="bookForm.get('total_copies')?.errors?.['min']">Must be at least 1</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline" class="full-width" *ngIf="isEditMode">
         <mat-label>Available Copies</mat-label>
         <input matInput type="number" formControlName="available_copies" placeholder="Available Copies">
         <mat-error *ngIf="bookForm.get('available_copies')?.errors?.['required']">Required</mat-error>

@@ -134,7 +134,8 @@ export class BooksComponent implements OnInit {
 
   openAddBookDialog(): void {
     const dialogRef = this.dialog.open(BookDialogComponent, {
-      width: '450px'
+      width: '450px',
+      maxWidth: '90vw'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -147,6 +148,7 @@ export class BooksComponent implements OnInit {
   openEditBookDialog(book: Book): void {
     const dialogRef = this.dialog.open(BookDialogComponent, {
       width: '450px',
+      maxWidth: '90vw',
       data: { book }
     });
 

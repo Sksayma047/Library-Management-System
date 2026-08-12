@@ -83,6 +83,10 @@ export class BookDialogComponent implements OnInit {
     this.loading = true;
     const formValue = this.bookForm.value;
 
+    if (!this.isEditMode) {
+      formValue.available_copies = formValue.total_copies;
+    }
+
     if (this.isEditMode) {
       this.bookService.updateBook(this.data.book.id!, formValue).subscribe({
         next: (updatedBook) => {

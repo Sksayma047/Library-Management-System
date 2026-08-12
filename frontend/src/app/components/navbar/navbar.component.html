@@ -37,4 +37,47 @@
       </button>
     </mat-menu>
   </div>
+  <button mat-icon-button class="mobile-menu-btn" (click)="toggleMobileMenu()" aria-label="Toggle navigation menu">
+    <mat-icon>menu</mat-icon>
+  </button>
 </mat-toolbar>
+
+<!-- Mobile Navigation Drawer Overlay -->
+<div class="mobile-drawer-overlay" *ngIf="isLoggedIn() && isMobileMenuOpen" (click)="toggleMobileMenu()">
+  <div class="mobile-drawer" (click)="$event.stopPropagation()">
+    <div class="mobile-drawer-header">
+      <span class="brand-logo">
+        <mat-icon class="logo-icon">local_library</mat-icon>
+        <span>LibManage Pro</span>
+      </span>
+      <button mat-icon-button (click)="toggleMobileMenu()" aria-label="Close menu">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="mobile-drawer-links">
+      <a mat-button routerLink="/dashboard" routerLinkActive="active-link" *ngIf="isAdmin()" (click)="toggleMobileMenu()">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </a>
+      <a mat-button routerLink="/books" routerLinkActive="active-link" (click)="toggleMobileMenu()">
+        <mat-icon>book</mat-icon> Books
+      </a>
+      <a mat-button routerLink="/members" routerLinkActive="active-link" *ngIf="isAdmin()" (click)="toggleMobileMenu()">
+        <mat-icon>people</mat-icon> Members
+      </a>
+      <a mat-button routerLink="/borrow-history" routerLinkActive="active-link" *ngIf="isAdmin()" (click)="toggleMobileMenu()">
+        <mat-icon>history</mat-icon> Borrow History
+      </a>
+      <a mat-button routerLink="/my-borrows" routerLinkActive="active-link" *ngIf="!isAdmin()" (click)="toggleMobileMenu()">
+        <mat-icon>history_edu</mat-icon> My Borrows
+      </a>
+      <a mat-button routerLink="/profile" routerLinkActive="active-link" (click)="toggleMobileMenu()">
+        <mat-icon>account_box</mat-icon> My Profile
+      </a>
+      <hr class="mobile-divider">
+      <button mat-button class="mobile-logout-btn" (click)="logout(); toggleMobileMenu()">
+        <mat-icon>exit_to_app</mat-icon> Logout
+      </button>
+    </div>
+  </div>
+</div>
+

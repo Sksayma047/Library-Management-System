@@ -84,7 +84,8 @@ export class MembersComponent implements OnInit {
 
   openAddMemberDialog(): void {
     const dialogRef = this.dialog.open(MemberDialogComponent, {
-      width: '450px'
+      width: '450px',
+      maxWidth: '90vw'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -97,6 +98,7 @@ export class MembersComponent implements OnInit {
   openEditMemberDialog(member: Member): void {
     const dialogRef = this.dialog.open(MemberDialogComponent, {
       width: '450px',
+      maxWidth: '90vw',
       data: { member }
     });
 

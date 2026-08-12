@@ -67,3 +67,15 @@
   background-color: #e74c3c !important;
   color: white !important;
 }
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px 16px;
+  }
+  .login-header {
+    margin-bottom: 24px;
+  }
+  .login-header h2 {
+    font-size: 24px;
+  }
+}

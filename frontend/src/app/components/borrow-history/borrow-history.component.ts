@@ -69,7 +69,8 @@ export class BorrowHistoryComponent implements OnInit {
 
   openIssueBookDialog(): void {
     const dialogRef = this.dialog.open(BorrowDialogComponent, {
-      width: '450px'
+      width: '450px',
+      maxWidth: '90vw'
     });
 
     dialogRef.afterClosed().subscribe(result => {

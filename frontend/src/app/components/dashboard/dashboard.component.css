@@ -209,4 +209,16 @@
     align-items: flex-start;
     gap: 16px;
   }
+  .header-section button {
+    width: 100%;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .actions-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }

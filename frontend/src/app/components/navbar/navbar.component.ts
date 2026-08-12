@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavbarComponent implements OnInit {
   username: string | null = '';
+  isMobileMenuOpen: boolean = false;
 
   constructor(private authService: AuthService) { }
 
@@ -23,6 +24,10 @@ export class NavbarComponent implements OnInit {
 
   isAdmin(): boolean {
     return this.authService.isAdmin();
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
   logout(): void {

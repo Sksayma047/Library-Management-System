@@ -37,6 +37,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
       height: 44px;
       font-weight: 600;
     }
+    @media (max-width: 600px) {
+      .profile-container {
+        margin: 16px auto;
+        padding: 8px;
+      }
+      .profile-card {
+        padding: 16px;
+      }
+    }
   `]
 })
 export class ProfileComponent implements OnInit {

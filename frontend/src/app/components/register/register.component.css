@@ -86,4 +86,13 @@
     flex-direction: column;
     gap: 0;
   }
+  .register-card {
+    padding: 24px 16px;
+  }
+  .register-header {
+    margin-bottom: 20px;
+  }
+  .register-header h2 {
+    font-size: 22px;
+  }
 }

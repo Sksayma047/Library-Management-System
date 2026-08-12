@@ -67,14 +67,113 @@
   font-size: 14px;
 }
 
+.mobile-menu-btn {
+  display: none;
+}
+
+/* Mobile Drawer Styles */
+.mobile-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  justify-content: flex-start;
+  animation: fadeIn 0.3s ease;
+}
+
+.mobile-drawer {
+  width: 280px;
+  max-width: 85vw;
+  height: 100%;
+  background: linear-gradient(180deg, #283593 0%, #1a237e 100%);
+  color: white;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 16px;
+}
+
+.mobile-drawer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-drawer-links a {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  text-align: left;
+  justify-content: flex-start;
+  padding: 10px 16px !important;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.mobile-drawer-links a:hover,
+.mobile-drawer-links a.active-link {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+}
+
+.mobile-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 16px 0;
+}
+
+.mobile-logout-btn {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  color: #ff8a80 !important;
+  text-align: left;
+  justify-content: flex-start;
+  padding: 10px 16px !important;
+  border-radius: 8px;
+}
+
+.mobile-logout-btn:hover {
+  background-color: rgba(255, 138, 128, 0.1) !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
 @media (max-width: 768px) {
-  .welcome-text {
-    display: none;
+  .nav-links,
+  .user-section {
+    display: none !important;
   }
-  .nav-links a span {
-    display: none;
-  }
-  .nav-links a mat-icon {
-    margin: 0;
+  .mobile-menu-btn {
+    display: inline-block;
   }
 }
+
