@@ -36,10 +36,8 @@
       </button>
     </div>
 
-    <!-- Loading overlay -->
-    <div class="loading-overlay" *ngIf="loading">
-      <mat-spinner diameter="50"></mat-spinner>
-    </div>
+    <!-- Loading progress bar -->
+    <mat-progress-bar mode="indeterminate" color="primary" *ngIf="loading" style="position: absolute; top: 0; left: 0; right: 0; z-index: 10;"></mat-progress-bar>
 
     <!-- Table -->
     <div class="table-responsive">
