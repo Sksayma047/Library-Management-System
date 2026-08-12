@@ -68,10 +68,6 @@ export class BooksComponent implements OnInit {
     this.borrowService.borrowBook(borrowData).subscribe({
       next: () => {
         this.borrowingId = null;
-        this.snackBar.open(`"${book.title}" borrowed successfully!`, 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
         this.loadBooks();
       },
       error: (err) => {
